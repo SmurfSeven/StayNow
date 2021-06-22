@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'arriendo'
+    
+    #my apps
+    'arriendo',
+    'arriendo.reserva_functions',
 ]
 
 MIDDLEWARE = [

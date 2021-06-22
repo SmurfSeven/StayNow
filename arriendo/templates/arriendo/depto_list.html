@@ -1,0 +1,22 @@
+<!--este template debe llamarse como el primer parametro en arriendo.urls.py 
+path('depto_list/', DeptoList.as_view(),name='ListaDeptos').
+ya qe se creará automaticamente
+]-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Deptos</title>
+</head>
+
+<body>
+
+    {% for depto in depto_list %}
+    <h2>{{depto}}</h2>
+    {% endfor %}
+    
+</body>
+</html>
