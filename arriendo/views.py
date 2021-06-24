@@ -28,6 +28,18 @@ def DeptoListView(request):
 
 class ReservaList(ListView):
     model = Reserva
+    
+    def get_queryset(self,*args, **kwargs):
+        # usuario admin podra ver TODAS las reservas
+        if self.request.user.is_staff:
+            reserva_list = Reserva.objects.all()
+            return reserva_list
+
+        # usuario normal solo podra ver SUS PROPIAS reservas
+        else:
+            reserva_list = Reserva.objects.filter(user=self.request.user)
+            return reserva_list
+    
 
 class DeptoDetailView(View):
     def get(self, request, *args, **kwargs):
