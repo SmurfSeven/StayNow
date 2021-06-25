@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
-from django.views.generic import ListView, FormView, View
-from django.urls import reverse
+from django.views.generic import ListView, FormView, View, DeleteView
+from django.urls import reverse, reverse_lazy
+from django.views.generic.edit import DeleteView
 from .models import Depto, Reserva
 from .forms import AvailabilityForm
 from arriendo.reserva_functions.availability import check_availability
@@ -25,9 +26,13 @@ def DeptoListView(request):
     
     return render (request,'depto_list_view.html', context)
 
-
-class ReservaList(ListView):
+# retorna la lista de reservas para cada usuario (y para admin muestra TODAS)
+class ReservaListView(ListView):
     model = Reserva
+
+    #aqui se hace la referencia la template, en una variable,
+    #  y no en un "return render" como es el caso de una "def"
+    template_name = 'reserva_list_view.html'
     
     def get_queryset(self,*args, **kwargs):
         # usuario admin podra ver TODAS las reservas
@@ -88,36 +93,46 @@ class DeptoDetailView(View):
             return HttpResponse(reserva)
         else:
             return HttpResponse('lo sentimos, este departamento se encuentra ocupado para tales fechas. Por favor intente con otra fecha')
-    
+
+class CancelReservaView(DeleteView):
+    model = Reserva
+
+    template_name = 'reserva_cancel_view.html'
+
+    #al eliminar exitosamente una reserva, redirigirse lista de resrvas
+    success_url = reverse_lazy('arriendo:ReservaListView')
 
         
 
-class ReservaView(FormView):
-    form_class = AvailabilityForm
-    template_name = 'availability_form.html'
+# CLASE COMENTADA A CONTINUACION PQ SE INTEGRO ESTA FUNCIONALIDAD
+# EN la clase DeptoDetailView 
 
-    def form_valid(self, form):
-        data = form.cleaned_data
-        depto_list = Depto.objects.filter(category=data['depto_category'])
-        available_deptos=[]
+# class ReservaView(FormView):
+#     form_class = AvailabilityForm
+#     template_name = 'availability_form.html'
 
-        for depto in depto_list:
-            if check_availability(depto,data['check_in'],data['check_out']):
-                available_deptos.append(depto)
+#     def form_valid(self, form):
+#         data = form.cleaned_data
+#         depto_list = Depto.objects.filter(category=data['depto_category'])
+#         available_deptos=[]
+
+#         for depto in depto_list:
+#             if check_availability(depto,data['check_in'],data['check_out']):
+#                 available_deptos.append(depto)
         
 
-        if len(available_deptos) > 0:
-            depto = available_deptos[0]
-            reserva = Reserva.objects.create(
-            user = self.request.user,
-            depto = depto,
-            check_in = data['check_in'],
-            check_out = data['check_out']
-            )
-            reserva.save()
-            return HttpResponse(reserva)
-        else:
-            return HttpResponse('lo sentimos, este departamento se encuentra ocupado para tales fechas. Por favor intente con otra fecha')
+#         if len(available_deptos) > 0:
+#             depto = available_deptos[0]
+#             reserva = Reserva.objects.create(
+#             user = self.request.user,
+#             depto = depto,
+#             check_in = data['check_in'],
+#             check_out = data['check_out']
+#             )
+#             reserva.save()
+#             return HttpResponse(reserva)
+#         else:
+#             return HttpResponse('lo sentimos, este departamento se encuentra ocupado para tales fechas. Por favor intente con otra fecha')
 
 
         

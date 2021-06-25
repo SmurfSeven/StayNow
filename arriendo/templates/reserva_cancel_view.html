@@ -41,27 +41,17 @@
                     rerum repellendus magnam labore. </p>
             </div>
 
-            <!-- Div 3: Room Booking Form -->
+            <!-- Div 3: Depto Cancel Reserva Form -->
             <form id="reserva-form" action="" method="POST">
 
                 {% csrf_token %}
-
+                <h2>¿Está Seguro que quiere cancelar esta Reserva?</h2>
+                <h3>Ciudad: {{reserva.get_depto_category}}</h3>
+                <h3>Fecha Entrada: {{reserva.check_in}}</h3>
+                <h3>Fecha Salida: {{reserva.check_out}}</h3>
                 <!-- Input Div -->
                 <div class="input-div">
-                    <label for="id_check_in">Check In : </label>
-                    <input type="datetime-local" id="id_check_in" name="check_in">
-                </div>
-
-                <!-- Input Div -->
-                <div class="input-div">
-                    <label for="id_check_out">Check Out : </label>
-                    <input type="datetime-local" id="id_check_out" name="check_out">
-                </div>
-                
-
-                <!-- Input Div -->
-                <div class="input-div">
-                    <button type="submit">Reservar</button>
+                    <button type="submit" >Cancelar Reservar</button>
                 </div>
 
             </form>

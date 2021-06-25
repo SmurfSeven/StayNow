@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Reservas</title>
+    <script src="https://kit.fontawesome.com/692189991f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'arriendo/css/reserva_list_view.css' %}">
+</head>
+
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="headings">
+                <h1>Sus Reservas</h1>
+                <h2>Bienvenido {{user}}</h2>
+            </div>
+            <div class="home">
+                <!-- Div 1: Back to Home -->
+                <div class="home">
+                    <a href="{% url 'arriendo:DeptoListView' %}"><i class="fas fa-arrow-alt-circle-left">Home</i></a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="bookings">
+            {% for reserva in reserva_list %}
+            <div class="booking">
+                <img src="https://images.unsplash.com/photo-1560067174-c5a3a8f37060?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80"
+                    alt="">
+                <div class="category">
+                    <h2>{{reserva.get_depto_category}}</h2>
+                </div>
+                <div class="from">
+                    <h3>Desde: {{reserva.check_in}}</h3>
+                </div>
+                <div class="to">
+                    <h3>Hasta: {{reserva.check_out}}</h3>
+                </div>
+                <div class="beds">
+                    <h3>Camas: {{reserva.depto.camas}}</h3>
+                </div>
+                <div class="capacity">
+                    <h3>Capacidad: {{reserva.depto.capacidad}}</h3>
+                </div>
+                <div class="cancel"><a href="{{reserva.get_cancel_reserva_url}}" class="invisible"><i
+                            class="far fa-2x fa-times-circle"> Cancel
+                            Booking</i></a></div>
+
+            </div>
+            {% endfor %}
+        </div>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+# framework
+django
+
+# manejo sesiones de usuario
+allauth
+
+#shortcuts para sintaxis de django x terminal
+shortcuts
+
+#manejo de imagenes
+pillow
