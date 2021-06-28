@@ -1,3 +1,4 @@
+from django import http
 from django.shortcuts import render, HttpResponse
 from django.views.generic import ListView, FormView, View, DeleteView
 from django.urls import reverse, reverse_lazy
@@ -5,23 +6,17 @@ from django.views.generic.edit import DeleteView
 from .models import Depto, Reserva
 from .forms import AvailabilityForm
 from arriendo.reserva_functions.availability import check_availability
+from arriendo.reserva_functions.get_depto_cat_url_list import get_depto_cat_url_list
+from arriendo.reserva_functions.get_depto_category_human_format import get_depto_category_human_format
+from arriendo.reserva_functions.get_available_deptos import get_available_deptos
+from arriendo.reserva_functions.book_depto import book_depto
 
 # Create your views here.
 def DeptoListView(request):
-    depto = Depto.objects.all()[0]
-    depto_categories = dict(depto.DEPTO_CATEGORIES)
-    
-    depto_values = depto_categories.values()
-    depto_list = []
-
-    for depto_category in depto_categories:
-        depto = depto_categories.get(depto_category)
-        depto_url = reverse('arriendo:DeptoDetailView',kwargs={'category':depto_category})
-        
-        depto_list.append((depto,depto_url))
+    depto_category_url_list = get_depto_cat_url_list()
 
     context = {
-        "depto_list": depto_list,
+        "depto_list": depto_category_url_list,
     }
     
     return render (request,'depto_list_view.html', context)
@@ -47,52 +42,53 @@ class ReservaListView(ListView):
     
 
 class DeptoDetailView(View):
+    
+    # generic view based DeptoDetailView
     def get(self, request, *args, **kwargs):
-        #se obtiene categoria desde la misma url del browser
+
+        #se obtiene keyword argument desde la misma url del browser (ejemplo: desde depto iquique obtiene "IQU")
         category = self.kwargs.get('category',None)#segundo parametro = none, por si algun usuario escribe algo en la url estropearia la captura de la categoria
-        form = AvailabilityForm()
-        depto_list = Depto.objects.filter(category=category)
         
-        if len(depto_list)>0: 
-            depto = depto_list[0] # el primer depto libre qe encuentre segun categoria(en este caso ciudad)
-            depto_category = dict(depto.DEPTO_CATEGORIES).get(depto.category, None)
+        # se obtiene categoria(ciudad) en human readable ("La Serena" en vez de 'SER')
+        human_format_depto_category = get_depto_category_human_format(category)
+       
+        # se inicializa form vacio
+        form = AvailabilityForm()
+
+        if human_format_depto_category is not None:
             context={
-            'depto_category': depto_category,
-            'form': form
+            'depto_category': human_format_depto_category,
+            'form': form #referencia a availability form
             }
-            return render(request,'depto_detail_view.html',context) 
+            return render(request,'depto_detail_view.html',context)
         else:
             return HttpResponse('Departamento No Existe!')
-
-
-    
+        
+  
     def post(self, request, *args, **kwargs):
+        # se obtiene Depto categoria-ciudad desde kwargs
         category = self.kwargs.get('category',None)
-        depto_list = Depto.objects.filter(category=category)
+        
+        # pass request.POST into AvailibilityForm
         form= AvailabilityForm(request.POST)
 
+        # revisa validez del form
         if form.is_valid():
-            data = form.cleaned_data
-        
-        available_deptos=[]
+            data = form.cleaned_data # form. cleaned_data is where all validated fields are stored.
 
-        for depto in depto_list:
-            if check_availability(depto,data['check_in'],data['check_out']):
-                available_deptos.append(depto)
-        
+        # se obtiene departamentos disponibles segun categoria y check_in + check_out ingresado x un cliente
+        available_deptos = get_available_deptos(category,data['check_in'],data['check_out'])
 
-        if len(available_deptos) > 0:
-            depto = available_deptos[0]
-            reserva = Reserva.objects.create(
-            user = self.request.user,
-            depto = depto,
-            check_in = data['check_in'],
-            check_out = data['check_out']
-            )
-            reserva.save()
+        # checkea si hay deptos disponibles (si hay deptos disponibles en la ciudad escogida para arrendar...)
+        if available_deptos is not None:
+            # reserva el depto (el primero "[0]" de la categoria qe halle disponible)
+            reserva = book_depto(request,available_deptos[0],
+                       data['check_in'],data['check_out'])
             return HttpResponse(reserva)
         else:
             return HttpResponse('lo sentimos, este departamento se encuentra ocupado para tales fechas. Por favor intente con otra fecha')
+
+       
 
 class CancelReservaView(DeleteView):
     model = Reserva
