@@ -1,18 +1,16 @@
+{% extends 'layout.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Turismo Real</title>
-    <!-- Main StyleSheet -->
-    <link rel="stylesheet" href="{% static 'arriendo/css/depto_list_view.css' %}">
-</head>
+{% block titulo_pagina %} Turismo Real {% endblock %}
 
-<body>
+{% block css %}
+<link rel="stylesheet" href="{% static 'arriendo/css/depto_list_view.css' %}">
+{% endblock %}
+
+{% block contenido %}
+<div class="body">
     <!-- Brand -->
-    <h1 id="brand">Turismo Real</h1>
+    <h1 id="brand">Departamentos</h1>
 
     <!-- Main Content -->
     <div class="content">
@@ -31,6 +29,5 @@
         {% endfor %}
 
     </div>
-</body>
-
-</html>
+</div>
+{% endblock %}

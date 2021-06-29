@@ -27,6 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# cuando un usuario se autentica, es redirigido a la raiz del sitio
+LOGIN_REDIRECT_URL =  'http://127.0.0.1:8000/depto_list/'
+
+#cuando un usuario cierra sesion, es redirigido a la raiz del sitio (si, tambien)
+LOGOUT_REDIRECT_URL = 'http://127.0.0.1:8000/depto_list/'
+
 
 # Application definition
 
@@ -50,6 +56,9 @@ INSTALLED_APPS = [
     #my apps
     'arriendo',
     'arriendo.reserva_functions',
+
+    #para customizar formularios con bootstrap
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [

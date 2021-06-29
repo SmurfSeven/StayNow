@@ -25,6 +25,8 @@ urlpatterns = [
     path('', include('arriendo.urls')),
 
     #para django all_auth
-     path('accounts/', include('allauth.urls')),
+    #path('accounts/', include('allauth.urls','django.contrib.auth.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

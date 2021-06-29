@@ -9,3 +9,6 @@ shortcuts
 
 #manejo de imagenes
 pillow
+
+#crispy forms
+crispy-forms

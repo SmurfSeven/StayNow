@@ -4,7 +4,7 @@
     margin:0;
     box-sizing: border-box;
 }
-body{
+.body{
     background-color: rgb(32, 33, 34);
     color: rgb(236, 235, 228);
     font-family: sans-serif;
