@@ -34,7 +34,8 @@ html heredaran el contenido escrito aqui, reciclando codigo-->
 			</div>
 
 			<nav>
-				<a href="">Inicio</a>
+				<a href="{% url 'arriendo:DeptoListView' %}">Inicio</a>
+				<a href="{% url 'arriendo:Ubicaciones' %}">Ubicaciones</a>
 				
 				{% if user.is_authenticated %}
 				<a href="{% url 'arriendo:ReservaListView' %}">Mis Reservas</a>
@@ -42,7 +43,7 @@ html heredaran el contenido escrito aqui, reciclando codigo-->
 				<a class="nombreusuario" href="">@{{user.username}}</a>
 				{% else %}
 				<a href="{% url 'login' %}">Iniciar Sesión</a>
-				<a href="{% url 'signup' %}">Crear Cuenta</a>
+				<a href="">Crear Cuenta</a>
 				{% endif %}
 				
 			</nav>
@@ -51,7 +52,7 @@ html heredaran el contenido escrito aqui, reciclando codigo-->
 
         {% block contenido %}
             <!--todo el codigo de las demas paginas hijas irá aqui-->
-        {% endblock %}
+		{% endblock %}
        
 		<footer>
 			<section class="links">
@@ -66,5 +67,6 @@ html heredaran el contenido escrito aqui, reciclando codigo-->
 
 	
 	</div>
+
 </body>
 </html>

@@ -98,6 +98,9 @@ class CancelReservaView(DeleteView):
     #al eliminar exitosamente una reserva, redirigirse lista de resrvas
     success_url = reverse_lazy('arriendo:ReservaListView')
 
+def ubicaciones(request):
+    return render (request,'ubicaciones.html')
+    
         
 
 # CLASE COMENTADA A CONTINUACION PQ SE INTEGRO ESTA FUNCIONALIDAD

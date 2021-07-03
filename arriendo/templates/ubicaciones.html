@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block titulo_pagina %} Ubicaciones {% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'arriendo/css/ubicaciones.css' %}">
+{% endblock %}
+
+{% block contenido %}
+
+<div class="container">
+   <br>
+    <div class="ciudad">
+        <div class="map" id="map_vina"></div>
+    
+        <div class="detalle">
+            <h2>Viña</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, itaque!</p>
+        </div>
+    </div>
+
+    <div class="ciudad">
+        <div class="map" id="map_vina"></div>
+    
+        <div class="detalle">
+            <h2>Viñaasaa</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, itaque!</p>
+        </div>
+    </div>
+
+</div>
+
+<br>
+<div class="map" id="map_serena">
+    <div>asdfasdf</div>
+</div>
+<br>
+<div class="map" id="map_pucon"></div>
+<br>
+<div class="map" id="map_iquique"></div>
+<br>
+<div class="map" id="map_villarica"></div>
+<br>
+<div class="map" id="map_valdivia"></div>
+<br>
+<div class="map" id="map_frutillar"></div>
+<br>
+
+<script src="{% static 'js/maps.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8wJ7H4mu_F51nDW0uXf903jPKumnRCDA&callback=initialize"></script>
+
+
+
+
+
+
+{% endblock %}
