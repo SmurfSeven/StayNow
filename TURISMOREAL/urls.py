@@ -26,7 +26,7 @@ urlpatterns = [
     path('', include('arriendo.urls')),
 
     #para django all_auth
-    path('accounts/', include('allauth.urls')),
+    #path('accounts/', include('allauth.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     
     

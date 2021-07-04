@@ -49,6 +49,12 @@ html heredaran el contenido escrito aqui, reciclando codigo-->
 			</nav>
 		</header>
 
+		<!--si hay mensajes desde el framewor de mensajeria de django, imprimirlos...-->
+		{% if messages %}
+			{% for m in messages %}
+				{{m}}
+			{% endfor %}
+		{% endif %}
 
         {% block contenido %}
             <!--todo el codigo de las demas paginas hijas irá aqui-->

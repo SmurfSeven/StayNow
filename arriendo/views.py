@@ -11,6 +11,7 @@ from arriendo.reserva_functions.get_depto_category_human_format import get_depto
 from arriendo.reserva_functions.get_available_deptos import get_available_deptos
 from arriendo.reserva_functions.book_depto import book_depto
 from django.contrib.auth import authenticate,login
+from django.contrib import messages
 
 
 
@@ -87,8 +88,10 @@ class DeptoDetailView(View):
             # reserva el depto (el primero "[0]" de la categoria qe halle disponible)
             reserva = book_depto(request,available_deptos[0],
                        data['check_in'],data['check_out'])
+            #messages.success(request,"Reserva exitosa!")
             return HttpResponse(reserva)
         else:
+            #messages.error(request,"error lo sentimos")
             return HttpResponse('lo sentimos, este departamento se encuentra ocupado para tales fechas. Por favor intente con otra fecha')
 
        

@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#para activar framework de mensajeria de django
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
+
 # cuando un usuario se autentica, es redirigido a la raiz del sitio
 LOGIN_REDIRECT_URL =  'http://127.0.0.1:8000/home/'
 
