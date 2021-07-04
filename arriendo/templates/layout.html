@@ -43,7 +43,7 @@ html heredaran el contenido escrito aqui, reciclando codigo-->
 				<a class="nombreusuario" href="">@{{user.username}}</a>
 				{% else %}
 				<a href="{% url 'login' %}">Iniciar Sesión</a>
-				<a href="">Crear Cuenta</a>
+				<a href="{% url 'login' %}">Crear Cuenta</a>
 				{% endif %}
 				
 			</nav>

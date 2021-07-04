@@ -8,9 +8,9 @@ function initialize(condition) {
         [-29.939295, -71.285818], //serena
         [-39.279593, -71.966430], //pucon
         [-20.236548, -70.150183],//iquique
-        [-20.236548, -70.150183],//iquique
-        [-20.236548, -70.150183],//iquique
-        [-20.236548, -70.150183],//iquique
+        [-39.280288, -72.230853],//Villarica
+        [-39.817807, -73.238000],//valdivia
+        [-41.123783, -73.054289],//frutillar
     ]
 
     //ARRAY guarda id de mapas del html

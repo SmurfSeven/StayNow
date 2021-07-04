@@ -11,6 +11,7 @@ from arriendo.reserva_functions.get_depto_category_human_format import get_depto
 from arriendo.reserva_functions.get_available_deptos import get_available_deptos
 from arriendo.reserva_functions.book_depto import book_depto
 
+
 # Create your views here.
 def DeptoListView(request):
     depto_category_url_list = get_depto_cat_url_list()
@@ -99,7 +100,22 @@ class CancelReservaView(DeleteView):
     success_url = reverse_lazy('arriendo:ReservaListView')
 
 def ubicaciones(request):
-    return render (request,'ubicaciones.html')
+  
+    ciudades = [
+        ['map_vina','Viña del Mar'],
+        ['map_serena','La Serena'],
+        ['map_pucon','Pucon'],
+        ['map_iquique','Iquique'],
+        ['map_villarica','Villarica'],
+        ['map_valdivia','Valdivia'],
+        ['map_frutillar','Frutillar']
+    ]
+
+    data = {
+        'ciudades' : ciudades
+    }
+    
+    return render (request,'ubicaciones.html', data)
     
         
 
