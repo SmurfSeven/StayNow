@@ -42,8 +42,8 @@ html heredaran el contenido escrito aqui, reciclando codigo-->
 				<a href="{% url 'logout' %}">Cerrar Sesión</a>
 				<a class="nombreusuario" href="">@{{user.username}}</a>
 				{% else %}
-				<a href="{% url 'login' %}">Iniciar Sesión</a>
-				<a href="{% url 'login' %}">Crear Cuenta</a>
+				<a href="{% url 'login' %}">Iniciar Sesión</a><!--login creado automaticante por django allauth-->
+				<a href="{% url 'arriendo:registro' %}">Crear Cuenta</a><!--registro creado manualmente en view-->
 				{% endif %}
 				
 			</nav>

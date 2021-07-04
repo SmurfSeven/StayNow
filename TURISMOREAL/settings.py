@@ -28,10 +28,10 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # cuando un usuario se autentica, es redirigido a la raiz del sitio
-LOGIN_REDIRECT_URL =  'http://127.0.0.1:8000/depto_list/'
+LOGIN_REDIRECT_URL =  'http://127.0.0.1:8000/home/'
 
 #cuando un usuario cierra sesion, es redirigido a la raiz del sitio (si, tambien)
-LOGOUT_REDIRECT_URL = 'http://127.0.0.1:8000/depto_list/'
+LOGOUT_REDIRECT_URL = 'http://127.0.0.1:8000/home/'
 
 
 # Application definition

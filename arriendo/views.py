@@ -1,15 +1,17 @@
 from django import http
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import redirect, render, HttpResponse
 from django.views.generic import ListView, FormView, View, DeleteView
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import DeleteView
 from .models import Depto, Reserva
-from .forms import AvailabilityForm
+from .forms import AvailabilityForm, CustomCreationForm
 from arriendo.reserva_functions.availability import check_availability
 from arriendo.reserva_functions.get_depto_cat_url_list import get_depto_cat_url_list
 from arriendo.reserva_functions.get_depto_category_human_format import get_depto_category_human_format
 from arriendo.reserva_functions.get_available_deptos import get_available_deptos
 from arriendo.reserva_functions.book_depto import book_depto
+from django.contrib.auth import authenticate,login
+
 
 
 # Create your views here.
@@ -117,7 +119,24 @@ def ubicaciones(request):
     
     return render (request,'ubicaciones.html', data)
     
-        
+def registro(request):
+    data = {
+        'form': CustomCreationForm
+    }
+
+    if request.method=='POST':
+        formulario = CustomCreationForm(data=request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            
+            #para qe el usuario recien creado quede logueado altiro
+            user = authenticate(username=formulario.cleaned_data["username"],password=formulario.cleaned_data["password1"])
+            login(request,user)
+            #messages.success(request, "te has registrado exitosamente")
+            #redirigir al home
+            return redirect(to="arriendo:DeptoListView")
+
+    return render(request,'registration/registro.html',data)       
 
 # CLASE COMENTADA A CONTINUACION PQ SE INTEGRO ESTA FUNCIONALIDAD
 # EN la clase DeptoDetailView 
