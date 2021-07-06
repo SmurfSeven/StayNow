@@ -85,11 +85,17 @@ class DeptoDetailView(View):
 
         # checkea si hay deptos disponibles (si hay deptos disponibles en la ciudad escogida para arrendar...)
         if available_deptos is not None:
-            # reserva el depto (el primero "[0]" de la categoria qe halle disponible)
-            reserva = book_depto(request,available_deptos[0],
-                       data['check_in'],data['check_out'])
-            #messages.success(request,"Reserva exitosa!")
-            return HttpResponse(reserva)
+            
+            if request.user.is_authenticated:
+                # reserva el depto (el primero "[0]" de la categoria qe halle disponible)
+                reserva = book_depto(request,available_deptos[0],
+                data['check_in'],data['check_out'])
+                #messages.success(request,"Reserva exitosa!")
+                return redirect(to="arriendo:ReservaListView")
+                #return HttpResponse(reserva)
+            else:
+                return HttpResponse('Por favor, inicie sesión antes de crear una reserva')
+            
         else:
             #messages.error(request,"error lo sentimos")
             return HttpResponse('lo sentimos, este departamento se encuentra ocupado para tales fechas. Por favor intente con otra fecha')
